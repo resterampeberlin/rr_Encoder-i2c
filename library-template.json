@@ -1,0 +1,26 @@
+{
+    "name": "RR Encoder I2C",
+    "version": "GIT_VERSION",
+    "description": "A library to connect a ATtiny85 encoder with i2c",
+    "keywords": [
+        "Debug",
+        "Logging"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/resterampeberlin/rr_Encoder-i2c.git"
+    },
+    "build": {
+        "extraScript": "git-version.py"
+    },
+    "authors": [
+        {
+            "name": "Markus Nickels",
+            "email": "markusnickels@mac.com",
+            "url": "https://github.com/resterampeberlin/rr_Encoder-i2c"
+        }
+    ],
+    "license": "CC-BY-SA-4.0",
+    "frameworks": "*",
+    "platforms": "*"
+}
