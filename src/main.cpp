@@ -20,14 +20,36 @@
 //! own includes
 #include "rr_Encoder-i2c.h"
 
+EncoderI2C encoder;
+
 //!
 //! @brief Setup routine
 //!
 void setup() {
+    Serial.begin(115200);
+
+    while (!Serial)
+        ;
+
+    Serial.print("Encoder module version:");
+    Serial.println(encoder.version());
 }
 
 //!
 //! @brief Main loop
 //!
+//! Print continously the status of the encoder
+//!
 void loop() {
+    while (true) {
+        Serial.print("Position:");
+        Serial.print(encoder.position());
+        Serial.print("\t");
+        Serial.print(encoder.button());
+        Serial.print("\t");
+        Serial.print(encoder.direction());
+        Serial.println();
+
+        delay(200);
+    }
 }

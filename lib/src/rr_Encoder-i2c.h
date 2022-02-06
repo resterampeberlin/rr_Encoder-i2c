@@ -17,10 +17,32 @@
 
 #pragma once
 
-#include <stddef.h>
+#include "rr_Encoder-i2c-common.h"
 
 class EncoderI2C {
 
   public:
+    EncoderI2C();
+    EncoderI2C(int newAddress);
+
+    EncoderI2CPosition_t  position(void);
+    void                  setPosition(EncoderI2CPosition_t position);
+
+    void                  setIncremenent(EncoderI2CPosition_t increment);
+
+    EncoderI2CDirection_t direction(void);
+    boolean               button(void);
+
+    String                version(void);
+
   private:
+    void                  sendCommand(EncoderI2CCommands_t cmd);
+
+    void                  sendPosition(EncoderI2CPosition_t value);
+
+    boolean               receiveBoolean(void);
+    EncoderI2CPosition_t  receivePosition(void);
+    EncoderI2CDirection_t receiveDirection(void);
+
+    int                   address;
 };

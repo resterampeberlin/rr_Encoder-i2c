@@ -3,8 +3,8 @@
     "version": "GIT_VERSION",
     "description": "A library to connect a ATtiny85 encoder with i2c",
     "keywords": [
-        "Debug",
-        "Logging"
+        "Encoder",
+        "I2C"
     ],
     "repository": {
         "type": "git",
