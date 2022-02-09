@@ -10,9 +10,6 @@
         "type": "git",
         "url": "https://github.com/resterampeberlin/rr_Encoder-i2c.git"
     },
-    "build": {
-        "extraScript": "git-version.py"
-    },
     "authors": [
         {
             "name": "Markus Nickels",

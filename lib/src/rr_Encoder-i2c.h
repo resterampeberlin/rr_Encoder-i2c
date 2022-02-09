@@ -19,30 +19,53 @@
 
 #include "rr_Encoder-i2c-common.h"
 
+//!
+//! @brief abstraction class for the protocol to the i2c module
+//!
+//!
 class EncoderI2C {
 
   public:
     EncoderI2C();
     EncoderI2C(int newAddress);
 
-    EncoderI2CPosition_t  position(void);
-    void                  setPosition(EncoderI2CPosition_t position);
+    // get/set encoder position
+    EncoderI2CPosition_t position(void);
+    void                 setPosition(EncoderI2CPosition_t position);
 
-    void                  setIncremenent(EncoderI2CPosition_t increment);
+    // set increment
+    void setIncremenent(EncoderI2CPosition_t increment);
 
+    // set limits
+    void setLowerLimit(EncoderI2CPosition_t limit);
+    void setUpperLimit(EncoderI2CPosition_t limit);
+
+    // last direction
     EncoderI2CDirection_t direction(void);
-    boolean               button(void);
 
-    String                version(void);
+    // current button status
+    boolean button(void);
 
-  private:
-    void                  sendCommand(EncoderI2CCommands_t cmd);
+    // set new i2c address for module
+    void setAddress(byte newAddress);
 
-    void                  sendPosition(EncoderI2CPosition_t value);
+    // firmware version of module
+    String version(void);
 
+  protected:
+    // check transmission
+    void checkTransmission(unsigned received, unsigned expected);
+
+    // send data
+    void sendCommand(EncoderI2CCommands_t cmd);
+    void sendPosition(EncoderI2CPosition_t value);
+    void sendAddress(byte newAddress);
+
+    // receive data
     boolean               receiveBoolean(void);
     EncoderI2CPosition_t  receivePosition(void);
     EncoderI2CDirection_t receiveDirection(void);
 
-    int                   address;
+    //! i2c slave address
+    int address;
 };

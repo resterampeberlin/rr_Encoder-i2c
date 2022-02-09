@@ -24,7 +24,8 @@
 //! @brief Construct a new EncoderI2C object with default address
 //!
 //!
-EncoderI2C::EncoderI2C() : EncoderI2C(ENCODER_I2C_ADDRESS) {
+EncoderI2C::EncoderI2C() {
+    address = ENCODER_I2C_ADDRESS;
 }
 
 //!
@@ -32,14 +33,17 @@ EncoderI2C::EncoderI2C() : EncoderI2C(ENCODER_I2C_ADDRESS) {
 //!
 //! @param newAddress i2c address on bus
 //!
-EncoderI2C::EncoderI2C(int newAddress) {
+EncoderI2C::EncoderI2C(int newAddress) : EncoderI2C() {
     address = newAddress;
 }
 
 //!
 //! @brief read the current position
 //!
-//! @return EncoderI2CPosition_t
+//! The reported position is scaled with the increment and constrained by
+//! upper and lower limit
+//!
+//! @return EncoderI2CPosition_t the encoder position
 //!
 EncoderI2CPosition_t EncoderI2C::position(void) {
     sendCommand(Get_Position);
@@ -48,9 +52,13 @@ EncoderI2CPosition_t EncoderI2C::position(void) {
 }
 
 //!
-//! @brief set a new position
+//! @brief set the new position
 //!
-//! @param position
+//! Since the raw encoder position is always multiplied by the increment value and
+//! constrained by the lower and upper limit, the position shall be within those
+//! limits and a multiple of the increment
+//!
+//! @param position new position
 //!
 void EncoderI2C::setPosition(EncoderI2CPosition_t position) {
     sendCommand(Set_Position);
@@ -59,9 +67,9 @@ void EncoderI2C::setPosition(EncoderI2CPosition_t position) {
 }
 
 //!
-//! @brief set the increment for each rotation
+//! @brief set the increment for each position
 //!
-//! @param increment
+//! @param increment new increment
 //!
 void EncoderI2C::setIncremenent(EncoderI2CPosition_t increment) {
     sendCommand(Set_Increment);
@@ -70,9 +78,33 @@ void EncoderI2C::setIncremenent(EncoderI2CPosition_t increment) {
 }
 
 //!
+//! @brief set the lower limit for the position
+//!
+//! @param limit new lower limit
+//!
+void EncoderI2C::setLowerLimit(EncoderI2CPosition_t limit) {
+    sendCommand(Set_LowerLimit);
+
+    sendPosition(limit);
+}
+
+//!
+//! @brief set the upper limit for the position
+//!
+//! @param limit new upper limit
+//!
+void EncoderI2C::setUpperLimit(EncoderI2CPosition_t limit) {
+    sendCommand(Set_UpperLimit);
+
+    sendPosition(limit);
+}
+
+//!
 //! @brief read the last direction
 //!
-//! @return EncoderI2CDirection_t
+//!
+//! @return EncoderI2CDirection_t last direction of the encoder or None if no change
+//!         occurred
 //!
 EncoderI2CDirection_t EncoderI2C::direction(void) {
     sendCommand(Get_Direction);
@@ -83,7 +115,7 @@ EncoderI2CDirection_t EncoderI2C::direction(void) {
 //!
 //! @brief read the button state
 //!
-//! @return boolean
+//! @return boolean true if button pressed or false otherwise
 //!
 boolean EncoderI2C::button(void) {
     sendCommand(Get_Button);
@@ -92,9 +124,21 @@ boolean EncoderI2C::button(void) {
 }
 
 //!
+//! @brief set new i2c address for module
+//!
+//! @param newAddress the new i2c address
+//!
+void EncoderI2C::setAddress(byte newAddress) {
+    sendCommand(Set_Address);
+
+    sendAddress(newAddress);
+    address = newAddress;
+}
+
+//!
 //! @brief read the version of the module
 //!
-//! @return String
+//! @return String the version of the module firmware
 //!
 String EncoderI2C::version(void) {
     sendCommand(Get_Version);
@@ -108,9 +152,11 @@ String EncoderI2C::version(void) {
 
     byte loop = 0;
 
-    while (Wire.available() && loop <= sizeof(EncoderI2CVersion_t)) {
+    while (Wire.available() && loop <= sizeof(EncoderI2CVersion_t) && !Wire.getWireTimeoutFlag()) {
         versionString[loop++] = Wire.read();
     }
+
+    checkTransmission(loop, sizeof(EncoderI2CVersion_t));
 
     // skip remaining data (should not happen)
     if (Wire.available()) {
@@ -121,11 +167,34 @@ String EncoderI2C::version(void) {
 }
 
 //!
+//! @brief check if data was received correclty
+//!
+//! @param received number of received bytes
+//! @param expected number of expected bytes
+//!
+void EncoderI2C::checkTransmission(unsigned received, unsigned expected) {
+    if (received < expected) {
+        Serial.print("Unexpected number of bytes received:");
+        Serial.print(received);
+        Serial.print("\tExpected:");
+        Serial.println(expected);
+    }
+
+    if (Wire.getWireTimeoutFlag()) {
+        Serial.println("I2C timeout occured");
+
+        Wire.clearWireTimeoutFlag();
+    }
+}
+
+//!
 //! @brief send a command to the module
 //!
-//! @param cmd
+//! @param cmd the command to be sent
 //!
 void EncoderI2C::sendCommand(EncoderI2CCommands_t cmd) {
+    Wire.setWireTimeout();
+
     Wire.beginTransmission(address);
     Wire.write(cmd);
     Wire.endTransmission();
@@ -134,7 +203,7 @@ void EncoderI2C::sendCommand(EncoderI2CCommands_t cmd) {
 //!
 //! @brief sends an EncoderI2CPosition_t value to the module
 //!
-//! @param value value to be send
+//! @param value value to be sent
 //!
 void EncoderI2C::sendPosition(EncoderI2CPosition_t value) {
     Wire.beginTransmission(address);
@@ -150,9 +219,20 @@ void EncoderI2C::sendPosition(EncoderI2CPosition_t value) {
 }
 
 //!
+//! @brief send an i2c address to the module
+//!
+//! @param newAddress the i2c address
+//!
+void EncoderI2C::sendAddress(byte newAddress) {
+    Wire.beginTransmission(address);
+    Wire.write(newAddress);
+    Wire.endTransmission();
+}
+
+//!
 //! @brief reads a boolean from the module
 //!
-//! @return boolean
+//! @return boolean read value
 //!
 boolean EncoderI2C::receiveBoolean(void) {
     Wire.requestFrom(address, sizeof(boolean));
@@ -160,11 +240,13 @@ boolean EncoderI2C::receiveBoolean(void) {
     int  data  = 0;
     byte count = 0;
 
-    while (Wire.available()) {
+    while (Wire.available() && !Wire.getWireTimeoutFlag()) {
         data |= Wire.read();
         data = data << 8;
         count++;
     }
+
+    checkTransmission(count, sizeof(boolean));
 
     return (boolean)data;
 }
@@ -180,11 +262,13 @@ EncoderI2CPosition_t EncoderI2C::receivePosition(void) {
     EncoderI2CPosition_t data  = 0;
     byte                 count = 0;
 
-    while (Wire.available()) {
+    while (Wire.available() && !Wire.getWireTimeoutFlag()) {
         data |= Wire.read();
         data = data << 8;
         count++;
     }
+
+    checkTransmission(count, sizeof(EncoderI2CPosition_t));
 
     return data;
 }
@@ -200,11 +284,13 @@ EncoderI2CDirection_t EncoderI2C::receiveDirection(void) {
     int  data  = 0;
     byte count = 0;
 
-    while (Wire.available()) {
+    while (Wire.available() && !Wire.getWireTimeoutFlag()) {
         data |= Wire.read();
         data = data << 8;
         count++;
     }
+
+    checkTransmission(count, sizeof(EncoderI2CDirection_t));
 
     return (EncoderI2CDirection_t)data;
 }
