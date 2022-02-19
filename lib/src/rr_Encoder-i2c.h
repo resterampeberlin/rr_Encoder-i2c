@@ -53,9 +53,6 @@ class EncoderI2C {
     String version(void);
 
   protected:
-    // check transmission
-    void checkTransmission(unsigned received, unsigned expected);
-
     // send data
     void sendCommand(EncoderI2CCommands_t cmd);
     void sendPosition(EncoderI2CPosition_t value);

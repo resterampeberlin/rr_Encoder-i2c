@@ -16,8 +16,10 @@
 //!
 
 #include <Arduino.h>
+#include <Wire.h>
 
 //! own includes
+#include "rr_DebugUtils.h"
 #include "rr_Encoder-i2c.h"
 
 EncoderI2C encoder;
@@ -26,13 +28,20 @@ EncoderI2C encoder;
 //! @brief Setup routine
 //!
 void setup() {
-    Serial.begin(115200);
+#ifdef __PLATFORMIO_BUILD_DEBUG__
+    Debug.beginSerial();
 
-    while (!Serial)
-        ;
+    // set tabs
+    unsigned tabs[] = {20, 30, 40, 50};
 
-    Serial.print("Encoder module version:");
-    Serial.println(encoder.version());
+    Debug.setTabs(tabs, sizeof(tabs) / sizeof(tabs[0]));
+#else
+    #pragma GCC error "set 'build_type = debug' in platformio.ini"
+#endif
+
+    Wire.begin();
+
+    PRINT_INFO("Encoder module version: %s", encoder.version().c_str());
 }
 
 //!
@@ -42,13 +51,7 @@ void setup() {
 //!
 void loop() {
     while (true) {
-        Serial.print("Position:");
-        Serial.print(encoder.position());
-        Serial.print("\t");
-        Serial.print(encoder.button());
-        Serial.print("\t");
-        Serial.print(encoder.direction());
-        Serial.println();
+        PRINT_DEBUG("Position: %ld\tSw: %d\tDir: %d", encoder.position(), encoder.button(), encoder.direction());
 
         delay(200);
     }

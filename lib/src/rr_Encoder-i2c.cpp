@@ -18,6 +18,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+#include "rr_DebugUtils.h"
 #include "rr_Encoder-i2c.h"
 
 //!
@@ -141,50 +142,16 @@ void EncoderI2C::setAddress(byte newAddress) {
 //! @return String the version of the module firmware
 //!
 String EncoderI2C::version(void) {
-    sendCommand(Get_Version);
-
-    Wire.requestFrom(address, sizeof(EncoderI2CVersion_t));
-
-    // initialize string
     EncoderI2CVersion_t versionString;
 
+    // initialize string
     memset(versionString, 0, sizeof(EncoderI2CVersion_t));
 
-    byte loop = 0;
-
-    while (Wire.available() && loop <= sizeof(EncoderI2CVersion_t) && !Wire.getWireTimeoutFlag()) {
-        versionString[loop++] = Wire.read();
-    }
-
-    checkTransmission(loop, sizeof(EncoderI2CVersion_t));
-
-    // skip remaining data (should not happen)
-    if (Wire.available()) {
-        Wire.read();
-    }
+    sendCommand(Get_Version);
+    Wire.requestFrom(address, sizeof(EncoderI2CVersion_t));
+    receiveData((byte*)versionString, sizeof(versionString));
 
     return String(versionString);
-}
-
-//!
-//! @brief check if data was received correclty
-//!
-//! @param received number of received bytes
-//! @param expected number of expected bytes
-//!
-void EncoderI2C::checkTransmission(unsigned received, unsigned expected) {
-    if (received < expected) {
-        Serial.print("Unexpected number of bytes received:");
-        Serial.print(received);
-        Serial.print("\tExpected:");
-        Serial.println(expected);
-    }
-
-    if (Wire.getWireTimeoutFlag()) {
-        Serial.println("I2C timeout occured");
-
-        Wire.clearWireTimeoutFlag();
-    }
 }
 
 //!
@@ -193,10 +160,12 @@ void EncoderI2C::checkTransmission(unsigned received, unsigned expected) {
 //! @param cmd the command to be sent
 //!
 void EncoderI2C::sendCommand(EncoderI2CCommands_t cmd) {
+#ifndef ARDUINO_AVR_ATTINYX5
     Wire.setWireTimeout();
+#endif
 
     Wire.beginTransmission(address);
-    Wire.write(cmd);
+    sendData((byte*)&cmd, sizeof(cmd));
     Wire.endTransmission();
 }
 
@@ -207,14 +176,7 @@ void EncoderI2C::sendCommand(EncoderI2CCommands_t cmd) {
 //!
 void EncoderI2C::sendPosition(EncoderI2CPosition_t value) {
     Wire.beginTransmission(address);
-
-    EncoderI2CPosition_t data = value;
-
-    for (byte loop = 1; loop <= sizeof(EncoderI2CPosition_t); loop++) {
-        Wire.write(data & 0xff);
-        data = data >> 8;
-    }
-
+    sendData((byte*)&value, sizeof(value));
     Wire.endTransmission();
 }
 
@@ -225,7 +187,7 @@ void EncoderI2C::sendPosition(EncoderI2CPosition_t value) {
 //!
 void EncoderI2C::sendAddress(byte newAddress) {
     Wire.beginTransmission(address);
-    Wire.write(newAddress);
+    sendData((byte*)&newAddress, sizeof(newAddress));
     Wire.endTransmission();
 }
 
@@ -235,20 +197,12 @@ void EncoderI2C::sendAddress(byte newAddress) {
 //! @return boolean read value
 //!
 boolean EncoderI2C::receiveBoolean(void) {
-    Wire.requestFrom(address, sizeof(boolean));
+    boolean data;
 
-    int  data  = 0;
-    byte count = 0;
+    Wire.requestFrom(address, sizeof(data));
+    receiveData((byte*)&data, sizeof(data));
 
-    while (Wire.available() && !Wire.getWireTimeoutFlag()) {
-        data |= Wire.read();
-        data = data << 8;
-        count++;
-    }
-
-    checkTransmission(count, sizeof(boolean));
-
-    return (boolean)data;
+    return data;
 }
 
 //!
@@ -257,18 +211,10 @@ boolean EncoderI2C::receiveBoolean(void) {
 //! @return EncoderI2CPosition_t the read value
 //!
 EncoderI2CPosition_t EncoderI2C::receivePosition(void) {
-    Wire.requestFrom(address, sizeof(EncoderI2CPosition_t));
+    EncoderI2CPosition_t data = 0;
 
-    EncoderI2CPosition_t data  = 0;
-    byte                 count = 0;
-
-    while (Wire.available() && !Wire.getWireTimeoutFlag()) {
-        data |= Wire.read();
-        data = data << 8;
-        count++;
-    }
-
-    checkTransmission(count, sizeof(EncoderI2CPosition_t));
+    Wire.requestFrom(address, sizeof(data));
+    receiveData((byte*)&data, sizeof(data));
 
     return data;
 }
@@ -279,18 +225,10 @@ EncoderI2CPosition_t EncoderI2C::receivePosition(void) {
 //! @return EncoderI2CDirection_t the read value
 //!
 EncoderI2CDirection_t EncoderI2C::receiveDirection(void) {
-    Wire.requestFrom(address, sizeof(EncoderI2CDirection_t));
+    EncoderI2CDirection_t data;
 
-    int  data  = 0;
-    byte count = 0;
+    Wire.requestFrom(address, sizeof(data));
+    receiveData((byte*)&data, sizeof(data));
 
-    while (Wire.available() && !Wire.getWireTimeoutFlag()) {
-        data |= Wire.read();
-        data = data << 8;
-        count++;
-    }
-
-    checkTransmission(count, sizeof(EncoderI2CDirection_t));
-
-    return (EncoderI2CDirection_t)data;
+    return data;
 }

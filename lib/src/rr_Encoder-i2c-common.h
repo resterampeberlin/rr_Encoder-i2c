@@ -40,9 +40,7 @@ enum {
 typedef int32_t EncoderI2CPosition_t;
 
 //! type for the version string
-//!
-//! the version string could not be longer than xxx.yyy.zzz => 12 chars including trailing "0"
-typedef char EncoderI2CVersion_t[12];
+typedef char EncoderI2CVersion_t[32];
 
 //! encoder direction
 typedef enum {
@@ -50,3 +48,10 @@ typedef enum {
     Forward  = 0x10, //!< Forward movement
     Backward = 0x20  //!< backwar movement
 } EncoderI2CDirection_t;
+
+//! send / receive data
+void sendData(byte* data, byte count);
+void receiveData(byte* data, byte count);
+
+//! check if data is availabe on i2c
+boolean dataAvailable(void);
