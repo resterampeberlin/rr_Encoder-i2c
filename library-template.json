@@ -1,6 +1,5 @@
 {
     "name": "RREncoderI2C",
-    "version": "GIT_VERSION",
     "description": "A library to connect a ATtiny85 encoder with i2c",
     "keywords": [
         "Encoder",
