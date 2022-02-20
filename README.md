@@ -15,4 +15,4 @@ For source code documentation see this [page](https://resterampeberlin.github.io
 
 This open source code project is has been proudfully producted in Berlin (and other places around the globe) by
 
-![Logo](docs/Logo180x180.png)
+![Logo](Logo180x180.png)
