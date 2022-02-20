@@ -7,7 +7,7 @@ See this [repository](https://github.com/resterampeberlin/Encoder-Module) for th
 
 # Documentation
 
-For source code documentation see this [page](doc/html/index.html).
+For source code documentation see this [page](https://resterampeberlin.github.io/rr_Encoder-i2c/).
 
 # License:
 
