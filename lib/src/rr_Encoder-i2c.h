@@ -34,7 +34,7 @@ class EncoderI2C {
     void                 setPosition(EncoderI2CPosition_t position);
 
     // set increment
-    void setIncremenent(EncoderI2CPosition_t increment);
+    void setIncrement(EncoderI2CPosition_t increment);
 
     // set limits
     void setLowerLimit(EncoderI2CPosition_t limit);
@@ -52,11 +52,18 @@ class EncoderI2C {
     // firmware version of module
     String version(void);
 
+    // set configuration
+    void setConfig(EncoderI2Config_t config);
+
+    // reset module
+    void reset(void);
+
   protected:
     // send data
     void sendCommand(EncoderI2CCommands_t cmd);
     void sendPosition(EncoderI2CPosition_t value);
     void sendAddress(byte newAddress);
+    void sendConfig(EncoderI2Config_t config);
 
     // receive data
     boolean               receiveBoolean(void);

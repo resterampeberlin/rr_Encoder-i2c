@@ -33,7 +33,9 @@ enum {
     Set_LowerLimit = 0x51, //!< set lower limit
     Set_UpperLimit = 0x52, //!< set upper limit
     Set_Address    = 0x60, //!< set i2c address
-    Get_Version    = 0x70  //!< get version of slave firmware
+    Get_Version    = 0x70, //!< get version of slave firmware
+    Reset_Module   = 0x71, //!< reset the module
+    Set_Config     = 0x72  //!< set configuration
 };
 
 //! encoder position type. Use fixed bit size to prevent problems with other platforms
@@ -48,6 +50,11 @@ typedef enum {
     Forward  = 0x10, //!< Forward movement
     Backward = 0x20  //!< backwar movement
 } EncoderI2CDirection_t;
+
+//! encoder configuration
+typedef struct {
+    boolean invertSwitch : 1;
+} EncoderI2Config_t;
 
 //! send / receive data
 void sendData(byte* data, byte count);

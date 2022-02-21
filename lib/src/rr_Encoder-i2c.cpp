@@ -65,6 +65,9 @@ void EncoderI2C::setPosition(EncoderI2CPosition_t position) {
     sendCommand(Set_Position);
 
     sendPosition(position);
+
+    // give the encoder the chance to reach the main loop to transfer the new value
+    delay(100);
 }
 
 //!
@@ -72,7 +75,7 @@ void EncoderI2C::setPosition(EncoderI2CPosition_t position) {
 //!
 //! @param increment new increment
 //!
-void EncoderI2C::setIncremenent(EncoderI2CPosition_t increment) {
+void EncoderI2C::setIncrement(EncoderI2CPosition_t increment) {
     sendCommand(Set_Increment);
 
     sendPosition(increment);
@@ -155,6 +158,27 @@ String EncoderI2C::version(void) {
 }
 
 //!
+//! @brief Set configuration of encoder module
+//!
+//! @param config the new configuration
+//!
+void EncoderI2C::setConfig(EncoderI2Config_t config) {
+    sendCommand(Set_Config);
+
+    sendConfig(config);
+}
+
+//!
+//! @brief reset the module
+//!
+//!
+void EncoderI2C::reset(void) {
+    // send command twice to ensure a kind of failsafe handling
+    sendCommand(Reset_Module);
+    sendCommand(Reset_Module);
+}
+
+//!
 //! @brief send a command to the module
 //!
 //! @param cmd the command to be sent
@@ -188,6 +212,17 @@ void EncoderI2C::sendPosition(EncoderI2CPosition_t value) {
 void EncoderI2C::sendAddress(byte newAddress) {
     Wire.beginTransmission(address);
     sendData((byte*)&newAddress, sizeof(newAddress));
+    Wire.endTransmission();
+}
+
+//!
+//! @brief send new config to the module
+//!
+//! @param config the new configuration
+//!
+void EncoderI2C::sendConfig(EncoderI2Config_t config) {
+    Wire.beginTransmission(address);
+    sendData((byte*)&config, sizeof(config));
     Wire.endTransmission();
 }
 

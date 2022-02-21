@@ -56,6 +56,7 @@ void receiveData(byte* data, byte count) {
         PRINT_ERROR("Surplus data received %x", b);
     }
 
+// getWireTimeoutFlag() not implemented for ATTINY
 #ifndef ARDUINO_AVR_ATTINYX5
     if (Wire.getWireTimeoutFlag()) {
         PRINT_ERROR("I2C timeout occured", NULL);

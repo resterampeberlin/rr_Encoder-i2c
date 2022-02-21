@@ -1,29 +1,28 @@
 {
-    "name": "RREncoderI2C",
-    "version": "0.0.1",
-    "description": "A library to connect a ATtiny85 encoder with i2c",
-    "keywords": [
-        "Encoder",
-        "I2C"
+    "authors": [
+        {
+            "email": "markusnickels@mac.com",
+            "name": "Markus Nickels"
+        }
     ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/resterampeberlin/rr_Encoder-i2c.git"
-    },
     "dependencies": [
         {
             "name": "RRArduinoUtilities",
             "version": "file://../../Libraries/rr_ArduinoUtils/RRArduinoUtilities.tar.gz"
         }
     ],
-    "authors": [
-        {
-            "name": "Markus Nickels",
-            "email": "markusnickels@mac.com",
-            "url": "https://github.com/resterampeberlin/rr_Encoder-i2c"
-        }
+    "description": "A library to connect a ATtiny85 encoder with i2c",
+    "frameworks": "*",
+    "keywords": [
+        "Encoder",
+        "I2C"
     ],
     "license": "CC-BY-SA-4.0",
-    "frameworks": "*",
-    "platforms": "*"
+    "name": "RREncoderI2C",
+    "platforms": "*",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/resterampeberlin/rr_Encoder-i2c.git"
+    },
+    "version": "0.0.1"
 }
