@@ -30,6 +30,9 @@ EncoderI2C encoder;
 void test_Version(void) {
     String version = encoder.version();
 
+    Serial.print("Version =");
+    Serial.println(version);
+
     TEST_ASSERT_GREATER_THAN(0, version.length());
     TEST_ASSERT_LESS_THAN(sizeof(EncoderI2CVersion_t), version.length());
 }
@@ -83,6 +86,9 @@ void test_SetPosition(void) {
 
     encoder.setPosition(10);
 
+    // give encoder module time to digest command
+    delay(500);
+
     TEST_ASSERT_EQUAL(10, encoder.position());
     TEST_ASSERT_EQUAL(None, encoder.direction());
 }
@@ -117,12 +123,38 @@ void test_SetUpperLimit(void) {
 void test_SetLowerLimit(void) {
     encoder.setPosition(-50);
 
+    // give encoder module time to digest command
+    delay(500);
+
     TEST_ASSERT_EQUAL(-50, encoder.position());
 
     encoder.setLowerLimit(-40);
 
     TEST_ASSERT_EQUAL(-40, encoder.position());
     TEST_ASSERT_EQUAL(None, encoder.direction());
+}
+
+//!
+//! @brief test setAddress() method
+//!
+void test_SetAddress(void) {
+    TEST_ASSERT_EQUAL(-40, encoder.position());
+
+    // change i2c address
+    encoder.setAddress(0x20);
+
+    // wait for reconfiguration
+    delay(1000);
+
+    TEST_ASSERT_EQUAL(-40, encoder.position());
+
+    // reset i2c address
+    encoder.setAddress(0x10);
+
+    // wait for reconfiguration
+    delay(1000);
+
+    TEST_ASSERT_EQUAL(-40, encoder.position());
 }
 
 //!
@@ -148,6 +180,7 @@ void setup() {
     RUN_TEST(test_SetIncrement);
     RUN_TEST(test_SetUpperLimit);
     RUN_TEST(test_SetLowerLimit);
+    RUN_TEST(test_SetAddress);
 
     // stop unit testing
     UNITY_END();

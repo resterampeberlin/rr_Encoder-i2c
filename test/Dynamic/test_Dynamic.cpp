@@ -64,7 +64,9 @@ void encoderCCW(void) {
     digitalWrite(ENCA_PIN, HIGH);
     delay(ENCODER_DELAY);
     digitalWrite(ENCB_PIN, HIGH);
-    delay(3 * ENCODER_DELAY);
+
+    // give encoder module time to digest signals
+    delay(8 * ENCODER_DELAY);
 }
 
 //!
@@ -88,7 +90,9 @@ void encoderCW(void) {
     digitalWrite(ENCB_PIN, HIGH);
     delay(ENCODER_DELAY);
     digitalWrite(ENCA_PIN, HIGH);
-    delay(3 * ENCODER_DELAY);
+
+    // give encoder module time to digest signals
+    delay(8 * ENCODER_DELAY);
 }
 
 //!
