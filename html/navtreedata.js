@@ -26,10 +26,15 @@ var NAVTREE =
 [
   [ "RREncoderI2C", "index.html", [
     [ "LICENSE", "md__l_i_c_e_n_s_e.html", null ],
-    [ "Purpose", "md__r_e_a_d_m_e.html", [
+    [ "README", "md__r_e_a_d_m_e.html", [
+      [ "Purpose", "md__r_e_a_d_m_e.html#autotoc_md0", null ],
       [ "Installation", "md__r_e_a_d_m_e.html#autotoc_md1", null ],
       [ "Documentation", "md__r_e_a_d_m_e.html#autotoc_md2", null ],
-      [ "License", "md__r_e_a_d_m_e.html#autotoc_md3", null ]
+      [ "Testing", "md__r_e_a_d_m_e.html#autotoc_md3", [
+        [ "Static testing", "md__r_e_a_d_m_e.html#autotoc_md4", null ],
+        [ "Dynamic testing", "md__r_e_a_d_m_e.html#autotoc_md5", null ]
+      ] ],
+      [ "Credits", "md__r_e_a_d_m_e.html#autotoc_md6", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],

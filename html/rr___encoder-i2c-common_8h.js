@@ -1,5 +1,6 @@
 var rr___encoder_i2c_common_8h =
 [
+    [ "EncoderI2Config_t", "struct_encoder_i2_config__t.html", "struct_encoder_i2_config__t" ],
     [ "ENCODER_I2C_ADDRESS", "rr___encoder-i2c-common_8h.html#ab7cf7aebd6cdf8c73503cc8cf8ac60c5", null ],
     [ "EncoderI2CCommands_t", "rr___encoder-i2c-common_8h.html#ad56f686976dd79889afd4f4b26840432", null ],
     [ "EncoderI2CPosition_t", "rr___encoder-i2c-common_8h.html#a7625fd6c99356ad3671f169dfd9eda47", null ],

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['position_0',['position',['../class_encoder_i2_c.html#a4cd2b396d67978744c206c6002d15ab7',1,'EncoderI2C']]],
-  ['purpose_1',['Purpose',['../md__r_e_a_d_m_e.html',1,'']]]
+  ['none_0',['None',['../rr___encoder-i2c-common_8h.html#add0f8ec8686029fc7e24dbdeff4b6cb2ac9d3e887722f2bc482bcca9d41c512af',1,'rr_Encoder-i2c-common.h']]]
 ];

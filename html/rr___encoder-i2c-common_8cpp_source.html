@@ -120,25 +120,26 @@ $(document).ready(function(){initNavTree('rr___encoder-i2c-common_8cpp_source.ht
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        PRINT_ERROR(<span class="stringliteral">&quot;Surplus data received %x&quot;</span>, b);</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    }</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#ifndef ARDUINO_AVR_ATTINYX5</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">if</span> (Wire.getWireTimeoutFlag()) {</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        PRINT_ERROR(<span class="stringliteral">&quot;I2C timeout occured&quot;</span>, NULL);</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        Wire.clearWireTimeoutFlag();</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>}</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="rr___encoder-i2c-common_8h.html#a1cb8824a14ec00c0e03fa8fe5ef1e2de">   73</a></span><span class="keywordtype">boolean</span> <a class="code hl_function" href="rr___encoder-i2c-common_8h.html#a1cb8824a14ec00c0e03fa8fe5ef1e2de">dataAvailable</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#ifndef ARDUINO_AVR_ATTINYX5</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">return</span> Wire.available() &amp;&amp; !Wire.getWireTimeoutFlag();</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">return</span> Wire.available();</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>}</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">// getWireTimeoutFlag() not implemented for ATTINY</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#ifndef ARDUINO_AVR_ATTINYX5</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">if</span> (Wire.getWireTimeoutFlag()) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        PRINT_ERROR(<span class="stringliteral">&quot;I2C timeout occured&quot;</span>, NULL);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        Wire.clearWireTimeoutFlag();</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>}</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="rr___encoder-i2c-common_8h.html#a1cb8824a14ec00c0e03fa8fe5ef1e2de">   74</a></span><span class="keywordtype">boolean</span> <a class="code hl_function" href="rr___encoder-i2c-common_8h.html#a1cb8824a14ec00c0e03fa8fe5ef1e2de">dataAvailable</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#ifndef ARDUINO_AVR_ATTINYX5</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">return</span> Wire.available() &amp;&amp; !Wire.getWireTimeoutFlag();</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">return</span> Wire.available();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
 <div class="ttc" id="amain_8cpp_html_afe461d27b9c48d5921c00d521181f12f"><div class="ttname"><a href="main_8cpp.html#afe461d27b9c48d5921c00d521181f12f">loop</a></div><div class="ttdeci">void loop()</div><div class="ttdoc">Main loop.</div><div class="ttdef"><b>Definition:</b> <a href="main_8cpp_source.html#l00052">main.cpp:52</a></div></div>
 <div class="ttc" id="arr___encoder-i2c-common_8h_html"><div class="ttname"><a href="rr___encoder-i2c-common_8h.html">rr_Encoder-i2c-common.h</a></div><div class="ttdoc">Master and slave common functions for ATtiny85 based encoder wth i2c.</div></div>
-<div class="ttc" id="arr___encoder-i2c-common_8h_html_a1cb8824a14ec00c0e03fa8fe5ef1e2de"><div class="ttname"><a href="rr___encoder-i2c-common_8h.html#a1cb8824a14ec00c0e03fa8fe5ef1e2de">dataAvailable</a></div><div class="ttdeci">boolean dataAvailable(void)</div><div class="ttdoc">check if data is availabe on i2c</div><div class="ttdef"><b>Definition:</b> <a href="rr___encoder-i2c-common_8cpp_source.html#l00073">rr_Encoder-i2c-common.cpp:73</a></div></div>
+<div class="ttc" id="arr___encoder-i2c-common_8h_html_a1cb8824a14ec00c0e03fa8fe5ef1e2de"><div class="ttname"><a href="rr___encoder-i2c-common_8h.html#a1cb8824a14ec00c0e03fa8fe5ef1e2de">dataAvailable</a></div><div class="ttdeci">boolean dataAvailable(void)</div><div class="ttdoc">check if data is availabe on i2c</div><div class="ttdef"><b>Definition:</b> <a href="rr___encoder-i2c-common_8cpp_source.html#l00074">rr_Encoder-i2c-common.cpp:74</a></div></div>
 <div class="ttc" id="arr___encoder-i2c-common_8h_html_a2bcfbb4e414f90be45c1f254ec1b0ae6"><div class="ttname"><a href="rr___encoder-i2c-common_8h.html#a2bcfbb4e414f90be45c1f254ec1b0ae6">sendData</a></div><div class="ttdeci">void sendData(byte *data, byte count)</div><div class="ttdoc">send / receive data</div><div class="ttdef"><b>Definition:</b> <a href="rr___encoder-i2c-common_8cpp_source.html#l00030">rr_Encoder-i2c-common.cpp:30</a></div></div>
 <div class="ttc" id="arr___encoder-i2c-common_8h_html_ad0616efb8be114f5f3703773328d1c0e"><div class="ttname"><a href="rr___encoder-i2c-common_8h.html#ad0616efb8be114f5f3703773328d1c0e">receiveData</a></div><div class="ttdeci">void receiveData(byte *data, byte count)</div><div class="ttdoc">receive data over i2c interface</div><div class="ttdef"><b>Definition:</b> <a href="rr___encoder-i2c-common_8cpp_source.html#l00042">rr_Encoder-i2c-common.cpp:42</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
