@@ -73,8 +73,8 @@ void receiveData(byte* data, byte count) {
 //!
 boolean dataAvailable(void) {
 #ifndef ARDUINO_AVR_ATTINYX5
-    return Wire.available() && !Wire.getWireTimeoutFlag();
+    return Wire.available() > 0 && !Wire.getWireTimeoutFlag();
 #else
-    return Wire.available();
+    return Wire.available() > 0;
 #endif
 }
