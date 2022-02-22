@@ -67,7 +67,7 @@ void EncoderI2C::setPosition(EncoderI2CPosition_t position) {
     sendPosition(position);
 
     // give the encoder the chance to reach the main loop to transfer the new value
-    delay(100);
+    delay(200);
 }
 
 //!

@@ -1,3 +1,8 @@
+[![License](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![Issues](https://img.shields.io/github/issues/resterampeberlin/rr_Encoder-I2C)](https://github.com/resterampeberlin/rr_Encoder-i2c/issues)
+[![Tags](https://img.shields.io/github/v/tag/resterampeberlin/rr_Encoder-I2C)](https://github.com/resterampeberlin/rr_Encoder-i2c/tags)
+[![Download](https://img.shields.io/github/downloads/resterampeberlin/rr_Encoder-I2C/total)](https://github.com/resterampeberlin/rr_Encoder-I2C.git)
+
 # Purpose
 
 This library provides an interface for a rotary encoder module with i2c connection.
@@ -32,7 +37,7 @@ Connect the following pins:
 |             | D3          | DT          |
 |             | D4          | SW          |
 
-![Sketch](EncoderStaticTest.svg)
+![Sketch](img/EncoderStaticTest.svg)
 
 Run the test with `pio test --filter "*Static"`
 
@@ -54,12 +59,10 @@ Connect the following pins:
 Run the test with `pio test --filter "*Dynamic"`
 
 
-![Sketch](EncoderDynamicTest.svg)
+![Sketch](img/EncoderDynamicTest.svg)
 
-# License
+# Credits
 
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+This open source code project is has been proudfully produced in Berlin (and other places around the globe) by
 
-This open source code project is has been proudfully producted in Berlin (and other places around the globe) by
-
-![Logo](Logo180x180.png)
+![Logo](img/Logo180x180.png)

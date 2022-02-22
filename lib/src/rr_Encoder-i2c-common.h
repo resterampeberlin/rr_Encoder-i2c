@@ -53,7 +53,7 @@ typedef enum {
 
 //! encoder configuration
 typedef struct {
-    boolean invertSwitch : 1;
+    boolean invertSwitch : 1; //!< invert level of switch ( 1 => pressed = logic low )
 } EncoderI2Config_t;
 
 //! send / receive data

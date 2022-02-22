@@ -30,7 +30,7 @@ EncoderI2C encoder;
 #define ENCB_PIN      3
 
 //! delay after each signal change
-#define ENCODER_DELAY 50
+#define ENCODER_DELAY 100
 
 //!
 //! @brief simulate press of the button
@@ -50,10 +50,10 @@ void encoderCCW(void) {
 
     // Simulate this sequence
     //
-    // ENCA  --+  +--
+    // ENCA  --+  +----
     //         |  |
     //         +--+
-    // ENCB  ----+  +-
+    // ENCB  ----+  +--
     //           |  |
     //           +--+
 
@@ -64,7 +64,7 @@ void encoderCCW(void) {
     digitalWrite(ENCA_PIN, HIGH);
     delay(ENCODER_DELAY);
     digitalWrite(ENCB_PIN, HIGH);
-    delay(ENCODER_DELAY);
+    delay(3 * ENCODER_DELAY);
 }
 
 //!
@@ -77,7 +77,7 @@ void encoderCW(void) {
     // ENCA  ----+  +--
     //           |  |
     //           +--+
-    // ENCB  --+  +-
+    // ENCB  --+  +----
     //         |  |
     //         +--+
 
@@ -88,7 +88,7 @@ void encoderCW(void) {
     digitalWrite(ENCB_PIN, HIGH);
     delay(ENCODER_DELAY);
     digitalWrite(ENCA_PIN, HIGH);
-    delay(ENCODER_DELAY);
+    delay(3 * ENCODER_DELAY);
 }
 
 //!
@@ -141,7 +141,7 @@ void test_DirectionCW(void) {
     encoderCW();
 
     TEST_ASSERT_EQUAL(Forward, encoder.direction());
-    TEST_ASSERT_EQUAL(1, encoder.position());
+    TEST_ASSERT_EQUAL(4, encoder.position());
     TEST_ASSERT_EQUAL(None, encoder.direction());
 }
 
@@ -154,31 +154,7 @@ void test_DirectionCCW(void) {
     encoderCCW();
 
     TEST_ASSERT_EQUAL(Backward, encoder.direction());
-    TEST_ASSERT_EQUAL(-1, encoder.position());
-    TEST_ASSERT_EQUAL(None, encoder.direction());
-}
-
-//!
-//! @brief test setPosition() method
-//!
-void test_SetPosition(void) {
-    TEST_ASSERT_EQUAL(0, encoder.position());
-
-    encoder.setPosition(10);
-
-    TEST_ASSERT_EQUAL(10, encoder.position());
-    TEST_ASSERT_EQUAL(None, encoder.direction());
-}
-
-//!
-//! @brief test setIncrement() method
-//!
-void test_SetIncrement(void) {
-    TEST_ASSERT_EQUAL(10, encoder.position());
-
-    encoder.setIncrement(5);
-
-    TEST_ASSERT_EQUAL(50, encoder.position());
+    TEST_ASSERT_EQUAL(-4, encoder.position());
     TEST_ASSERT_EQUAL(None, encoder.direction());
 }
 
@@ -186,26 +162,28 @@ void test_SetIncrement(void) {
 //! @brief test setUpperLimit() method
 //!
 void test_SetUpperLimit(void) {
-    TEST_ASSERT_EQUAL(50, encoder.position());
+    encoder.setPosition(0);
+    encoder.setUpperLimit(10);
 
-    encoder.setUpperLimit(40);
+    for (unsigned loop = 1; loop <= 5; loop++) {
+        encoderCW();
+    }
 
-    TEST_ASSERT_EQUAL(40, encoder.position());
-    TEST_ASSERT_EQUAL(None, encoder.direction());
+    TEST_ASSERT_EQUAL(10, encoder.position());
 }
 
 //!
 //! @brief test setLowerLimit() method
 //!
 void test_SetLowerLimit(void) {
-    encoder.setPosition(-50);
+    encoder.setPosition(0);
+    encoder.setLowerLimit(-7);
 
-    TEST_ASSERT_EQUAL(-50, encoder.position());
+    for (unsigned loop = 1; loop <= 4; loop++) {
+        encoderCCW();
+    }
 
-    encoder.setLowerLimit(-40);
-
-    TEST_ASSERT_EQUAL(-40, encoder.position());
-    TEST_ASSERT_EQUAL(None, encoder.direction());
+    TEST_ASSERT_EQUAL(-7, encoder.position());
 }
 
 //!
@@ -236,10 +214,8 @@ void setup() {
     RUN_TEST(test_Config);
     RUN_TEST(test_DirectionCW);
     RUN_TEST(test_DirectionCCW);
-    // RUN_TEST(test_SetPosition);
-    // RUN_TEST(test_SetIncrement);
-    // RUN_TEST(test_SetUpperLimit);
-    // RUN_TEST(test_SetLowerLimit);
+    RUN_TEST(test_SetUpperLimit);
+    RUN_TEST(test_SetLowerLimit);
 
     // stop unit testing
     UNITY_END();
