@@ -21,6 +21,9 @@
 #include "rr_DebugUtils.h"
 #include "rr_Encoder-i2c.h"
 
+//! delay after sendCommand()
+#define COMMAND_DELAY 20
+
 //!
 //! @brief Construct a new EncoderI2C object with default address
 //!
@@ -191,6 +194,9 @@ void EncoderI2C::sendCommand(EncoderI2CCommands_t cmd) {
     Wire.beginTransmission(address);
     sendData((byte*)&cmd, sizeof(cmd));
     Wire.endTransmission();
+
+    // give the peripheral some time to digest command
+    delay(COMMAND_DELAY);
 }
 
 //!
