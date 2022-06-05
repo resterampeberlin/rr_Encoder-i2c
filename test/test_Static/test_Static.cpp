@@ -1,9 +1,8 @@
 //!
-//! @file test_Static.cpp
+
 //! @author M. Nickels
 //! @brief Static unit test
-//! @version 0.1
-//! @date 2021-12-20
+
 //!
 //! @copyright Copyright (c) 2021
 //!
