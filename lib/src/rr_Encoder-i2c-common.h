@@ -1,9 +1,6 @@
 //!
-//! @file rr_Encoder-i2c-common.h
 //! @author M. Nickels
 //! @brief Master and slave common definitions for ATtiny85 based encoder wth i2c
-//! @version 0.1
-//! @date 2021-12-20
 //!
 //! @copyright Copyright (c) 2022
 //!

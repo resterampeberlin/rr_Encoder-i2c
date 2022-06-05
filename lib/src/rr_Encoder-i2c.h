@@ -1,9 +1,6 @@
 //!
-//! @file rr_Encoder-i2c.cpp
 //! @author M. Nickels
 //! @brief class to connect an ATtiny85 based encoder wth i2c
-//! @version 0.1
-//! @date 2021-12-20
 //!
 //! @copyright Copyright (c) 2022
 //!
